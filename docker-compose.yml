@@ -25,7 +25,7 @@ services:
         ipv4_address: 172.16.238.3
         ipv6_address: 2001:3984:3989::11
   bible-reference-ui:
-    image: dfields2016/bible-reference-explorer-ui:1.3
+    image: dfields2016/bible-reference-explorer-ui:master
     depends_on:
       - neo
       - bible-reference-api
