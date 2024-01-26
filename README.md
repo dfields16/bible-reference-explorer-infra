@@ -1,2 +1,2 @@
-# bible-reference-explorer-infra
+# Bible Reference Explorer Infrastructure
 Infrastructure for Bible Reference Explorer
