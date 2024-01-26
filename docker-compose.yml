@@ -19,7 +19,6 @@ services:
     image: dfields2016/bible-reference-explorer-api:master
     depends_on:
       - neo
-      - nginx
     ports:
       - 8080:8080
     networks:
@@ -32,7 +31,6 @@ services:
     depends_on:
       - neo
       - bible-reference-api
-      - nginx
     ports:
       - 3000:80
     networks:
@@ -42,6 +40,9 @@ services:
 
   nginx:
     image: dfields2016/bible-reference-explorer-infra:master
+    depends_on:
+      - bible-reference-api
+      - bible-reference-ui
     restart: unless-stopped
     ports:
       - 80:80
