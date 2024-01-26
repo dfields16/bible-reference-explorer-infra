@@ -8,8 +8,8 @@ services:
     #   - 7687:7687
     volumes:
       - neo4j_data:/data/
-    # env_file:
-    #   - .env.neo4j
+    env_file:
+      - .env.neo4j
     networks:
       db_net:
         ipv4_address: 172.16.238.2
