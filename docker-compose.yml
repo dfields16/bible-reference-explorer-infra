@@ -19,7 +19,7 @@ services:
     image: dfields2016/bible-reference-explorer-api:master
     depends_on:
       - neo
-      - bible-reference-nginx
+      - nginx
     ports:
       - 8080:8080
     networks:
@@ -32,7 +32,7 @@ services:
     depends_on:
       - neo
       - bible-reference-api
-      - bible-reference-nginx
+      - nginx
     ports:
       - 3000:80
     networks:
@@ -40,7 +40,7 @@ services:
         ipv4_address: 172.16.238.4
         ipv6_address: 2001:3984:3989::12
 
-  bible-reference-nginx:
+  nginx:
     image: dfields2016/bible-reference-explorer-infra:master
     restart: unless-stopped
     ports:
