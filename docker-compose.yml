@@ -39,11 +39,14 @@ services:
         ipv6_address: 2001:3984:3989::12
 
   nginx:
-    image: dfields2016/bible-reference-explorer-infra:master
+    container_name: nginx
+    image: nginx:latest
+    restart: unless-stopped
     depends_on:
       - bible-reference-api
       - bible-reference-ui
-    restart: unless-stopped
+    environment:
+      - DOMAIN
     ports:
       - 80:80
       - 443:443
@@ -52,24 +55,20 @@ services:
         ipv4_address: 172.16.238.5
         ipv6_address: 2001:3984:3989::13
     volumes:
-    # - ./data/nginx:/etc/nginx/conf.d
-    - ./data/certbot/conf:/etc/letsencrypt/:ro
-    - ./data/certbot/www:/var/www/certbot/:ro
+      - ./etc/nginx/templates:/etc/nginx/templates:ro
+      - ./etc/letsencrypt:/etc/letsencrypt:ro
+      - ./certbot/data:/var/www/certbot
     # command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
   certbot:
-    image: certbot/certbot
-    restart: unless-stopped
+    container_name: certbot
+    image: certbot/certbot:latest
     depends_on:
       - nginx
     volumes:
-    - ./data/certbot/www:/var/www/certbot/:rw
-    - ./data/certbot/conf/:/etc/letsencrypt/:rw
+      - ./etc/letsencrypt:/etc/letsencrypt
+      - ./certbot/data:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    networks:
-      db_net:
-        ipv4_address: 172.16.238.6
-        ipv6_address: 2001:3984:3989::14
 
 volumes:
   neo4j_data:
